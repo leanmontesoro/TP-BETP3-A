@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://us-central1-be-tp3-a.cloudfunctions.net/")
                 .client(client)
+
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
