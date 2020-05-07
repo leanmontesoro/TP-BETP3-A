@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,16 +23,31 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    ListView list2;
+
+    EditText idgenerico;
+
+    Button btadd,btdel,btedit,btbuscar;
     ListView list;
     ListAdapter adaptador;
     ArrayList<String> autos = new ArrayList<>();
+    Retrofit retrofit;
+    AutoService api;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*Traigo los botones del xml*/
+        TextView idgenerico =(EditText) findViewById(R.id.idgenerico);
+        btadd = findViewById(R.id.btadd);
+        btdel = findViewById(R.id.btdel);
+        btedit = findViewById(R.id.btedit);
+        btbuscar = findViewById(R.id.btnbuscar);
+
+        retrofit = new AdaptadorRetrofit().getAdaptador();
+        api = retrofit.create(AutoService.class);
 
 
         adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, autos);
@@ -44,14 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void getListadoVehiculos(){
 
-        // Establezco una relacion de mi app con este endpoint:
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://us-central1-be-tp3-a.cloudfunctions.net/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-
-        // Defnimos la interfaz para que utilice la base retrofit de mi aplicacion ()
+       // Defnimos la interfaz para que utilice la base retrofit de mi aplicacion ()
         AutoService autoService = retrofit.create(AutoService.class);
 
 
