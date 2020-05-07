@@ -1,13 +1,19 @@
 package com.example.api_rest_call;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,17 +27,35 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
 
+public class MainActivity extends AppCompatActivity {
+    //btadd btdel btedit idauto
+
+    EditText idgenerico;
+    Button btadd,btdel,btedit,btbuscar;
     ListView list;
     ListAdapter adaptador;
     ArrayList<String> autos = new ArrayList<>();
+    Retrofit retrofit;
+    AutoService api;
+    
 
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
+
+        TextView idgenerico =(EditText) findViewById(R.id.idgenerico);
+        btadd = findViewById(R.id.btadd);
+        btdel = findViewById(R.id.btdel);
+        btedit = findViewById(R.id.btedit);
+        btbuscar = findViewById(R.id.btnbuscar);
+    
+    retrofit = new AdaptadorRetrofit().getAdaptador();
+    api = retrofit.create(AutoService.class);
 
 
         adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, autos);
@@ -42,31 +66,45 @@ public class MainActivity extends AppCompatActivity {
 
         this.getListadoVehiculos();
 
+        btbuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (idgenerico.getText().toString().equals("")) {
+                Toast.makeText(MainActivity.this,"Inserte un ID a buscar",Toast.LENGTH_SHORT).show();
+
+
+                }else{
+                    this.
+                }
+                }
+
+
+            }
+        });
+
+
+
+
     }
 
     public void getListadoVehiculos(){
-
-
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-
+        AdaptadorRetrofit adap = new
         // Establezco una relacion de mi app con este endpoint:
-        Retrofit retrofit = new Retrofit.Builder()
+      /*  Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://us-central1-be-tp3-a.cloudfunctions.net/")
                 .client(client)
 
                 .addConverterFactory(GsonConverterFactory.create())
-                .build();
+                .build();*/
 
 
         // Defnimos la interfaz para que utilice la base retrofit de mi aplicacion ()
-        AutoService autoService = retrofit.create(AutoService.class);
+        //AutoService autoService = retrofit.create(AutoService.class);
 
 
-        Call<List<Auto>> http_call = autoService.getAutos();
+        Call<List<Auto>> Call<List<Auto>> http_call = api.getAutos();
 
+        //llamada asincrona
         http_call.enqueue(new Callback<List<Auto>>() {
             @Override
             public void onResponse(Call<List<Auto>> call, Response<List<Auto>> response) {
