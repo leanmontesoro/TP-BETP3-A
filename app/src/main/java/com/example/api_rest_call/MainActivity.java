@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
         btedit = findViewById(R.id.btedit);
         btbuscar = findViewById(R.id.btnbuscar);
     
-    retrofit = new AdaptadorRetrofit().getAdaptador();
-    api = retrofit.create(AutoService.class);
+        retrofit = new AdaptadorRetrofit().getAdaptador();
+        api = retrofit.create(AutoService.class);
 
 
         adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, autos);
@@ -82,21 +82,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getListadoVehiculos(){
-        AdaptadorRetrofit adap = new
-        // Establezco una relacion de mi app con este endpoint:
-      /*  Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://us-central1-be-tp3-a.cloudfunctions.net/")
-                .client(client)
-
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();*/
 
 
-        // Defnimos la interfaz para que utilice la base retrofit de mi aplicacion ()
-        //AutoService autoService = retrofit.create(AutoService.class);
-
-
-        Call<List<Auto>> Call<List<Auto>> http_call = api.getAutos();
+         Call<List<Auto>> http_call = api.getAutos();
 
         //llamada asincrona
         http_call.enqueue(new Callback<List<Auto>>() {
