@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     //btadd btdel btedit idauto
 
     EditText idgenerico;
+
     Button btadd,btdel,btedit,btbuscar;
     ListView list;
     ListAdapter adaptador;
@@ -69,18 +70,11 @@ public class MainActivity extends AppCompatActivity {
         btbuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (idgenerico.getText().toString().equals("")) {
-                Toast.makeText(MainActivity.this,"Inserte un ID a buscar",Toast.LENGTH_SHORT).show();
-
-
-                }else{
-                    this.
-                }
-                }
-
 
             }
         });
+
+        };
 
 
 
