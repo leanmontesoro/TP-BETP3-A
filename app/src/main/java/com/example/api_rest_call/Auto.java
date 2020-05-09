@@ -2,7 +2,9 @@ package com.example.api_rest_call;
 
 import androidx.annotation.NonNull;
 
-public class Auto {
+import java.io.Serializable;
+
+public class Auto implements Serializable {
     private String id;
     private String marca;
     private String modelo;

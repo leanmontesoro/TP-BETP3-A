@@ -8,6 +8,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface AutoService {
@@ -36,7 +37,9 @@ public interface AutoService {
     Call<List<Auto>> getAutos();
 
     @GET(READ)
-    Call<Auto> getAuto();
+    Call<Auto> getAuto(
+            @Path("id") String id
+    );
 
     @POST(CREATE)
     Call<Void> agregarAuto(

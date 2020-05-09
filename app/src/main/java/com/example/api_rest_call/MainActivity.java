@@ -2,7 +2,9 @@ package com.example.api_rest_call;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,24 +64,54 @@ public class MainActivity extends AppCompatActivity {
         btdel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                // Toast.makeText(MainActivity.this,idgenerico.getText().toString(),Toast.LENGTH_SHORT).show();
                 if(idgenerico.getText().toString().equals("ID") || idgenerico.getText().toString().equals("")){
                     Toast.makeText(MainActivity.this,"Inserte un ID a eliminar",Toast.LENGTH_SHORT).show();
-
-
                 } else {
 
                     //api.eliminarAuto("0a7fe5fc-d8b4-4c41-9f66-053dbc64152b");
                     eliminarAuto(api,"0a7fe5fc-d8b4-4c41-9f66-053dbc64152b");
-
                 }
-
             }
         });
 
-
+        btbuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(idgenerico.getText().toString().equals("ID") || idgenerico.getText().toString().equals("")){
+                    Toast.makeText(MainActivity.this,"Inserte un ID",Toast.LENGTH_SHORT).show();
+                } else {
+                    idgenerico.setText("");
+                    buscarAuto(api,"0a7fe5fc-d8b4-4c41-9f66-053dbc64152b");
+                }
+            }
+        });
          }
+
+    public void buscarAuto(final AutoService api, String idAuto) {
+        autos.clear();
+        Call<Auto> call = api.getAuto(idAuto);
+
+        call.enqueue(new Callback<Auto>() {
+            @Override
+            public void onResponse(Call<Auto> call, Response<Auto> response) {
+
+                if(response.code() == 200){
+                    Intent searchedCarIntent = new Intent(getApplicationContext(), SearchedCarActivity.class);
+                    searchedCarIntent.putExtra("searchedAuto", (Serializable) response.body());
+                    startActivity(searchedCarIntent);
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "Hubo un error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Auto> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Falló conexión con API", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     public void eliminarAuto(final AutoService api, String idAuto) {
         autos.clear();
