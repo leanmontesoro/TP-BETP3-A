@@ -50,7 +50,7 @@ public interface AutoService {
 
     @DELETE(DEL)
     Call<Void> eliminarAuto(
-            @Query("idAuto") String idAuto
+            @Query("id") String id
     );
 
 

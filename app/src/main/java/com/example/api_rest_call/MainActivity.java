@@ -3,6 +3,7 @@ package com.example.api_rest_call;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /*Traigo los botones del xml*/
-        TextView idgenerico =(EditText) findViewById(R.id.idgenerico);
+        final TextView idgenerico =(EditText) findViewById(R.id.idgenerico);
         btadd = findViewById(R.id.btadd);
         btdel = findViewById(R.id.btdel);
         btedit = findViewById(R.id.btedit);
@@ -48,17 +49,71 @@ public class MainActivity extends AppCompatActivity {
 
         retrofit = new AdaptadorRetrofit().getAdaptador();
         api = retrofit.create(AutoService.class);
-
+        this.getListadoVehiculos();
 
         adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, autos);
 
         list = (ListView) findViewById(android.R.id.list);
 
         list.setAdapter(adaptador);
-
         this.getListadoVehiculos();
 
+        btdel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               // Toast.makeText(MainActivity.this,idgenerico.getText().toString(),Toast.LENGTH_SHORT).show();
+                if(idgenerico.getText().toString().equals("ID") || idgenerico.getText().toString().equals("")){
+                    Toast.makeText(MainActivity.this,"Inserte un ID a eliminar",Toast.LENGTH_SHORT).show();
+
+
+                } else {
+
+                    //api.eliminarAuto("0a7fe5fc-d8b4-4c41-9f66-053dbc64152b");
+                    eliminarAuto(api,"0a7fe5fc-d8b4-4c41-9f66-053dbc64152b");
+                    Toast.makeText(MainActivity.this,"Entre al else",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
+         }
+
+    public void eliminarAuto(final AutoService api, String idAuto) {
+        autos.clear();
+        Call<Void> call = api.eliminarAuto(idAuto);
+        //Call<List<Auto>> call = autoService.getAutos();
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                Toast.makeText(MainActivity.this, "Se elimino correctamente", Toast.LENGTH_SHORT).show();
+                switch (response.code()) {
+                    case 200:
+                        Toast.makeText(MainActivity.this, "Se elimino correctamente", Toast.LENGTH_SHORT).show();
+                        idgenerico.setText("");
+                        getListadoVehiculos();
+                        break;
+                    case 204:
+                        Toast.makeText(MainActivity.this, "No se elimino el registro", Toast.LENGTH_SHORT).show();
+                        idgenerico.setText("");
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
     }
+
+
+
+
 
     public void getListadoVehiculos(){
 
