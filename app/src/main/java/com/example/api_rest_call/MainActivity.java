@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
                     //api.eliminarAuto("0a7fe5fc-d8b4-4c41-9f66-053dbc64152b");
                     eliminarAuto(api,"0a7fe5fc-d8b4-4c41-9f66-053dbc64152b");
-                    Toast.makeText(MainActivity.this,"Entre al else",Toast.LENGTH_SHORT).show();
+
                 }
 
             }
@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
     public void eliminarAuto(final AutoService api, String idAuto) {
         autos.clear();
         Call<Void> call = api.eliminarAuto(idAuto);
-        //Call<List<Auto>> call = autoService.getAutos();
 
+        Toast.makeText(MainActivity.this,"Entre al metodo",Toast.LENGTH_SHORT).show();
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
