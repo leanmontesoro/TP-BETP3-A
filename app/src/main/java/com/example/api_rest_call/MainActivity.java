@@ -29,7 +29,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     EditText idgenerico;
-
     Button btadd,btdel,btedit,btbuscar;
     ListView list;
     ListAdapter adaptador;
@@ -37,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
     Retrofit retrofit;
     AutoService api;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -49,15 +48,11 @@ public class MainActivity extends AppCompatActivity {
         btdel = findViewById(R.id.btdel);
         btedit = findViewById(R.id.btedit);
         btbuscar = findViewById(R.id.btnbuscar);
-
         retrofit = new AdaptadorRetrofit().getAdaptador();
         api = retrofit.create(AutoService.class);
         this.getListadoVehiculos();
-
         adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, autos);
-
         list = (ListView) findViewById(android.R.id.list);
-
         list.setAdapter(adaptador);
         this.getListadoVehiculos();
 
@@ -86,7 +81,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-         }
+
+        btadd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent createCarIntent = new Intent(getApplicationContext(), CreateCarActivity.class);
+                //createCarIntent.putExtra("connection", (Parcelable) api);
+                startActivity(createCarIntent);
+            }
+        });
+
+    }
 
     public void buscarAuto(final AutoService api, String idAuto) {
         autos.clear();
@@ -144,10 +149,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
     public void getListadoVehiculos(){
 
        // Defnimos la interfaz para que utilice la base retrofit de mi aplicacion ()
@@ -181,7 +182,4 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-
-
 }

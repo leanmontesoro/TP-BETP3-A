@@ -9,6 +9,12 @@ public class Auto implements Serializable {
     private String marca;
     private String modelo;
 
+    public Auto(String id, String marca, String modelo) {
+        this.id = id;
+        this.marca = marca;
+        this.modelo = modelo;
+    }
+
     public String getId() {
 
         return id;

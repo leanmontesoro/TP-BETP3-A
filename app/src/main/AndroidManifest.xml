@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SearchedCarActivity"></activity>
+        <activity android:name=".CreateCarActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden">
