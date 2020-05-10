@@ -9,15 +9,16 @@ public class SearchedCarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searched_car);
 
         if(getIntent().hasExtra("searchedAuto")){
-            TextView searchedModelo = (TextView) findViewById(R.id.searchedMarcaTxt);
-            TextView searchedMarca = (TextView) findViewById(R.id.searchedModeloTxt);
+            TextView searchedMarca = (TextView) findViewById(R.id.searchedMarcaTxt);
+            TextView searchedModelo = (TextView) findViewById(R.id.searchedModeloTxt);
             Auto searchedAuto = (Auto) getIntent().getSerializableExtra("searchedAuto");
-            searchedModelo.append(searchedAuto.getModelo());
             searchedMarca.append(searchedAuto.getMarca());
+            searchedModelo.append(searchedAuto.getModelo());
         }
     }
 }

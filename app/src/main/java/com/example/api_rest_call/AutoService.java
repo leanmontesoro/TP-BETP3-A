@@ -12,21 +12,20 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface AutoService {
-  /*  CREATE: https://us-central1-be-tp3-a.cloudfunctions.net/app/api/create
+    /*
+    CREATE: https://us-central1-be-tp3-a.cloudfunctions.net/app/api/create
     UPDATE: https://us-central1-be-tp3-a.cloudfunctions.net/app/api/update/{id}
     DELETE: https://us-central1-be-tp3-a.cloudfunctions.net/app/api/delete/{id}
     READ: https://us-central1-be-tp3-a.cloudfunctions.net/app/api/read/{id}
     READ ALL: https://us-central1-be-tp3-a.cloudfunctions.net/app/api/read/
     */
 
-    /**
-     * Definicion de ruta para GET
-     */
+    /* Definicion de rutas*/
     String READ_ALL= "app/api/read";
     String CREATE= "app/api/create";
     String READ = "app/api/read/{id}";
-    String UPDATE= "app/api/update/";
-    String DEL= "app/api/delete/";
+    String UPDATE= "app/api/update/{id}";
+    String DEL= "app/api/delete/{id}";
 
 
     /**
@@ -48,15 +47,12 @@ public interface AutoService {
 
     @PUT(UPDATE)
     Call<Void> actualizarAuto(
+            @Path("id") String id,
             @Body Auto auto
     );
 
     @DELETE(DEL)
     Call<Void> eliminarAuto(
-            @Query("id") String id
+            @Path("id") String id
     );
-
-
-
-
 }
