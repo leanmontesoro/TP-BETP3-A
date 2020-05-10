@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -59,7 +60,17 @@ public class MainActivity extends AppCompatActivity {
         list = (ListView) findViewById(android.R.id.list);
 
         list.setAdapter(adaptador);
+
         this.getListadoVehiculos();
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                list.getItemAtPosition(position);
+
+            }
+        });
+
 
         btdel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,33 +124,36 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void eliminarAuto(final AutoService api, String idAuto) {
+    public void eliminarAuto(final AutoService api, final String idAuto) {
         autos.clear();
-        Call<Void> call = api.eliminarAuto(idAuto);
+        Call<Auto> call = api.getAuto(idAuto);
+        //Call<Auto> call = api.eliminarAuto(idAuto);
 
-        Toast.makeText(MainActivity.this,"Entre al metodo",Toast.LENGTH_SHORT).show();
-        call.enqueue(new Callback<Void>() {
+
+        //Toast.makeText(MainActivity.this,"Entre al metodo",Toast.LENGTH_SHORT).show();
+        call.enqueue(new Callback<Auto>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<Auto> call, Response<Auto> response) {
 
-                Toast.makeText(MainActivity.this, "Se elimino correctamente", Toast.LENGTH_SHORT).show();
+
                 switch (response.code()) {
                     case 200:
+                        autos.remove(idAuto);
                         Toast.makeText(MainActivity.this, "Se elimino correctamente", Toast.LENGTH_SHORT).show();
-                        idgenerico.setText("");
+                        // idgenerico.setText("ID");
                         getListadoVehiculos();
                         break;
                     case 204:
                         Toast.makeText(MainActivity.this, "No se elimino el registro", Toast.LENGTH_SHORT).show();
-                        idgenerico.setText("");
+                      //  idgenerico.setText("");
                         break;
 
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-
+            public void onFailure(Call<Auto> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Falló conexión con API", Toast.LENGTH_SHORT).show();
             }
         });
     }
